@@ -1,0 +1,11 @@
+{
+  "name": "Update submodules",
+  "description": "Checks submodules and creates a PR, whether they are outdated",
+  "iconName": "git-icon",
+  "categories": [
+    "Go"
+  ],
+  "filePatterns": [
+    "^.gitmodules&"
+  ]
+}
