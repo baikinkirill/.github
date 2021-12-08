@@ -1,0 +1,53 @@
+name: Build docker image and update service on RTUITLab virtual machine
+
+on:
+  push:
+    branches:
+      - $default-branch
+
+env:
+  # Ask DevOps about SERVICE_NAME value
+  SERVICE_NAME: YOUR-STACK-NAME_YOUR-SERVICE-NAME
+  # Name of github package. Recommendations:
+  #   ghcr.io/rtuitlab/ - must have
+  #   YOUR-STACK-NAME/ - not to store your package in root of RTUITLab organization packages
+  #   YOUR-SERVICE-NAME - to recognize your package
+  IMAGE_NAME: ghcr.io/rtuitlab/YOUR-STACK-NAME/YOUR-SERVICE-NAME
+
+jobs:
+  build_push_image:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+    
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker tag $IMAGE_NAME $IMAGE_NAME:latest
+          docker tag $IMAGE_NAME $IMAGE_NAME:${{ github.run_number }}
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:${{ github.run_number }}
+  update_service:
+    needs: [build_push_image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update service
+        uses: appleboy/ssh-action@master
+        env:
+          IMAGE: ${{ env.IMAGE_NAME }}:${{ github.run_number }}
+          SERVICE: ${{ env.SERVICE_NAME }}
+        with:
+          host: ${{ secrets.RTUITLAB_MANAGER_VM_HOST }}
+          username: ${{ secrets.RTUITLAB_MANAGER_VM_USERNAME }}
+          key: ${{ secrets.RTUITLAB_MANAGER_VM_SSH_KEY }}
+          envs: IMAGE,SERVICE
+          script: docker service update --image $IMAGE $SERVICE --with-registry-auth
