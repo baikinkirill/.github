@@ -1,0 +1,41 @@
+name: Build docker image and update service on RTUITLab virtual machine
+
+on:
+  # Choose what you need or configure new trigger
+
+  # On every push to default branch
+  push:
+    branches:
+      - $default-branch
+  # Every day in 13:00
+  schedule:
+    - cron: '0 13 * * *'
+
+env:
+  # Name of your package to delete
+  PACKAGE_NAME: YOUR-STACK-NAME/YOUR-SERVICE-NAME
+  # Number of packages you want to keep
+  NUMBER_OF_PACKAGES_TO_KEEP: 2
+
+jobs:
+  delete_packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete package
+        uses: actions/delete-package-versions@v2
+        with:
+          package-name: $PACKAGE_NAME
+          min-versions-to-keep: $NUMBER_OF_PACKAGES_TO_KEEP
+
+      # If your repo has more than 1 package
+      # you can create multiple steps
+
+      # Just set new env variables. For example:
+      # PACKAGE_NAME_1 and NUMBER_OF_PACKAGES_1_TO_KEEP
+
+      # Here is an example of second step to delete another package
+      # - name: Delete package 1
+      #   uses: actions/delete-package-versions@v2
+      #   with:
+      #     package-name: $PACKAGE_NAME_1
+      #     min-versions-to-keep: $NUMBER_OF_PACKAGES_1_TO_KEEP
