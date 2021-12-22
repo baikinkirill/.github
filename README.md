@@ -37,3 +37,15 @@ All variables in `UPPERCASE` you should replace with your variables
         > After this job, you can find your packages on main page of your repo.  
         [Check this](https://docs.github.com/en/packages/learn-github-packages/viewing-packages) to turn on packages viewing on repo main page
     1. Goes to RTUITLab manager virtual machine and updates service with new github package
+
+### delete-packages.yml
+1. Your repo MUST have:
+    1. Nothing special
+
+1. Description of this action:
+    1. Triggers:
+        1. `default` branch 
+            > Default branch of your repo
+        1. Schedule `13:00` every day
+    1. Keeps only some number of packages. Others will be deleted
+        > To set number of packages to keep - look inside `delete-packages.yml`
