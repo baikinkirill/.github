@@ -1,0 +1,8 @@
+{
+  "name": "Build docker image and update service",
+  "description": "Build docker image via github packages and update service on RTUITLab's virtual machines",
+  "iconName": "git-icon",
+  "filePatterns": [
+    "^Dockerfile"
+  ]
+}

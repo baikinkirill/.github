@@ -1,0 +1,5 @@
+{
+  "name": "Delete packages",
+  "description": "Periodically delete github packages to reduce using space",
+  "iconName": "git-icon"
+}

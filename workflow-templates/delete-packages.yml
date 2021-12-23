@@ -1,4 +1,4 @@
-name: Build docker image and update service on RTUITLab virtual machine
+name: Delete packages
 
 on:
   # Choose what you need or configure new trigger
@@ -24,8 +24,8 @@ jobs:
       - name: Delete package
         uses: actions/delete-package-versions@v2
         with:
-          package-name: $PACKAGE_NAME
-          min-versions-to-keep: $NUMBER_OF_PACKAGES_TO_KEEP
+          package-name: ${{ env.PACKAGE_NAME }}
+          min-versions-to-keep: ${{ env.NUMBER_OF_PACKAGES_TO_KEEP }}
 
       # If your repo has more than 1 package
       # you can create multiple steps
