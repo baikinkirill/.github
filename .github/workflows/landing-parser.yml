@@ -27,7 +27,7 @@ jobs:
           cd landing
           python -m pip install -U pip
           pip install -r parser/requirements.txt
-          python parser/main.py -s ../project -t ./src -r ${{ github.repository }} -b ${{ github.event.repository.default_branch }}
+          python parser/main.py -s ../project -t projects-data -r ${{ github.repository }} -b ${{ github.event.repository.default_branch }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
