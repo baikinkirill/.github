@@ -8,7 +8,7 @@ All variables in `UPPERCASE` you should replace with your variables
 
 1. Description of this action:
     1. Triggers:
-        1. `default` branch 
+        1. `default` branch
             > Default branch of your repo
         1. Schedule `8:30` and `15:30` every day
     1. Check for repository changes in the Actions workspace. This includes:
@@ -16,7 +16,7 @@ All variables in `UPPERCASE` you should replace with your variables
         1. untracked (new) files
         1. tracked (modified) files
         1. commits made during the workflow that have not been pushed
-            > Commit all changes to a new branch, or update an existing pull request branch.  
+            > Commit all changes to a new branch, or update an existing pull request branch.
             Create a pull request to merge the new branch into the base—the branch checked out in the workflow.
 
 
@@ -31,10 +31,10 @@ All variables in `UPPERCASE` you should replace with your variables
 
 1. Description of this action:
     1. Triggers:
-        1. `default` branch 
+        1. `default` branch
             > Default branch of your repo
     1. Creates [github package](https://github.com/features/packages) with docker image of your project
-        > After this job, you can find your packages on main page of your repo.  
+        > After this job, you can find your packages on main page of your repo.
         [Check this](https://docs.github.com/en/packages/learn-github-packages/viewing-packages) to turn on packages viewing on repo main page
     1. Goes to RTUITLab manager virtual machine and updates service with new github package
 
@@ -44,8 +44,20 @@ All variables in `UPPERCASE` you should replace with your variables
 
 1. Description of this action:
     1. Triggers:
-        1. `default` branch 
+        1. `default` branch
             > Default branch of your repo
         1. Schedule `13:00` every day
     1. Keeps only some number of packages. Others will be deleted
         > To set number of packages to keep - look inside `delete-packages.yml`
+
+
+### landing-parser.yml
+1. Your repo MUST have:
+    1. `LANDING.md` file in root folder of your repo
+    2. [RTUITLab's](https://github.com/RTUITLab) secrets:
+        1. RTUITLAB_LANDING_TOKEN
+
+1. Description of this action:
+    1. Triggers:
+        1. changes in `LANDING.md` file in `default` branch of your repo
+        2. `workflow-dispatch`

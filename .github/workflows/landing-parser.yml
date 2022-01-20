@@ -1,0 +1,47 @@
+name: Landing
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
+
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: project
+      - uses: actions/checkout@v2
+        with:
+          repository: RTUITLab/Landing-Front
+          path: landing
+      - name: Setup Python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: 3.9
+      - name: Parse LANDING.md
+        run: |
+          cd landing
+          python -m pip install -U pip
+          pip install -r parser/requirements.txt
+          python parser/main.py -s ../project -t ./src -r ${{ github.repository }} -b ${{ github.event.repository.default_branch }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          path: landing
+          token: ${{ secrets.token }}
+          committer: GitHub <noreply@github.com>
+          author: GitHub <noreply@github.com>
+          commit-message: update information about ${{ github.repository }}
+          title: Update information about ${{ github.repository }}
+          branch: 'sync/${{ github.repository }}'
+          delete-branch: true
+          assignees: |
+            CAPCHIK
+            IvLaptev
+          reviewers: |
+            CAPCHIK
+            IvLaptev

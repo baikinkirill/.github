@@ -1,0 +1,5 @@
+{
+    "name": "Parse LANDING.md file",
+    "description": "Parse LANDING.md file and create PR to landing",
+    "iconName": "git-icon"
+  }
