@@ -22,6 +22,7 @@ jobs:
         with:
           repository: RTUITLab/Files
           path: files
+          lfs: true
       - name: Setup Python
         uses: actions/setup-python@v2.3.1
         with:
