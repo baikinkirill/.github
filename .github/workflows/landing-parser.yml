@@ -11,14 +11,17 @@ jobs:
   parse:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout project (this repo)
+        uses: actions/checkout@v2
         with:
           path: project
-      - uses: actions/checkout@v2
+      - name: Checkout landing
+        uses: actions/checkout@v2
         with:
           repository: RTUITLab/Landing-Front
           path: landing
-      - uses: actions/checkout@v2
+      - name: Checkout static files
+        uses: actions/checkout@v2
         with:
           repository: RTUITLab/Files
           path: files
@@ -29,10 +32,9 @@ jobs:
           python-version: 3.9
       - name: Parse LANDING.md
         run: |
-          cd landing
           python -m pip install -U pip
-          pip install -r parser/requirements.txt
-          python parser/main.py -s ../project -t ../files/content/landing_src/projects-data -r ${{ github.repository }} -b ${{ github.event.repository.default_branch }}
+          pip install -r landing/parser/requirements.txt
+          python landing/parser/main.py -s project -t files/content/landing_src/projects_data -r ${{ github.repository }} -b ${{ github.event.repository.default_branch }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
