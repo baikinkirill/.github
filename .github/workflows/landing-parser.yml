@@ -39,7 +39,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           path: files
-          token: ${{ secrets.token }}
+          token: ${{ secrets.PAT }}
           committer: GitHub <noreply@github.com>
           author: GitHub <noreply@github.com>
           commit-message: update information about ${{ github.repository }}
